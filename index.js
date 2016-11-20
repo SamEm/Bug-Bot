@@ -122,7 +122,7 @@ bot.on('messageCreate', (msg) => {
       });
     }
 
-    if(command.toLowerCase() === "!canrepro"){
+    if(command.toLowerCase() === "!canrepro" || command.toLowerCase() === "!canrepo"){
       var joinedMessage = messageSplit.join(' ');
 
       var trelloURL = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)?\s*\|\s*([\s\S]*)/gi, "$2");
@@ -151,7 +151,7 @@ bot.on('messageCreate', (msg) => {
       });
     }
 
-    if(command.toLowerCase() === "!cannotrepro"){
+    if(command.toLowerCase() === "!cannotrepro" || command.toLowerCase() === "!cantrepro" || command.toLowerCase() === "!cantrepo" || command.toLowerCase() === "!cannotrepo"){
       var joinedMessage = messageSplit.join(' ');
       var trelloURL = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)?\s*\|\s*([\s\S]*)/gi, "$2");
       var clientInfo = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)?\s*\|\s*([\s\S]*)/gi, "$5");
