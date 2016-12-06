@@ -96,7 +96,7 @@ bot.on('messageCreate', (msg) => {
         break;
       }
 
-    if(channelID === config.androidChannel || channelID === config.canaryChannel || channelID === config.iosChannel){
+    if(channelID === config.androidChannel || channelID === config.canaryChannel || channelID === config.iosChannel || channelID === config.linuxChannel){
 
       if(command.toLowerCase() === "!addnote"){
         var joinedMessage = messageSplit.join(' ');
@@ -484,6 +484,9 @@ bot.on('messageCreate', (msg) => {
                     }else if(channelID === config.canaryChannel){
                       var listID = config.canaryCard;
                       sendToTrello(listID, header, reportStringSubmit, channelID, attachment, "Canary", userTag, cleanRepostReport, msg.id);
+                    }else if (channelID === config.linuxChannel) {
+                      var listID = config.linuxCard;
+                      sendToTrello(listID, header, reportStringSubmit, channelID, attachment, "Linux", userTag, cleanRepostReport, msg.id);
                     }
                   }else{
                     bot.createMessage(channelID, "<@" + userID + "> Please format the reproduction steps correctly ` - step one - step two - step three (etc)`").then(delay(config.delayInMS)).then((innerMsg) => {
