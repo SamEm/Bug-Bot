@@ -6,7 +6,7 @@ var config = {
   iosChannel: '202491590390841344',               //ios text Channel
   androidChannel: '232568032394870784',           //android text Channel
   canaryChannel: '197038744908333066',            //canary text Channel
-  modLogChannel: "241625778368806912",            //mod log text Channel
+  modLogChannel: '241625778368806912',            //mod log text Channel
   bugHunterChannel: '217764019661045761',         //bug hunter text Channel
 
   devRole: '197042389569765376',                  //dev role
