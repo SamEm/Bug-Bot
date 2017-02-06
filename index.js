@@ -110,6 +110,37 @@ bot.on('messageCreate', (msg) => {
             });
           }
         break;
+        case "!linux":
+          var ios = config.linuxTesterRole;
+          var index = roles.indexOf(ios);
+          if(index === -1){
+            roles.push(ios);
+            bot.editGuildMember(msg.guild.id, userID, {
+              roles: roles
+            }).then(() => {
+              bot.createMessage(channelID, "<@" + userID + ">, you have been given the role of `Linux Tester`. Use the same command again to remove this role from yourself.").then(delay(config.delayInMS)).then((innerMsg) => {
+                bot.deleteMessage(innerMsg.channel.id, innerMsg.id);
+                bot.deleteMessage(channelID, msg.id);
+              }).catch((err) => {
+                console.log("#3 " + err);
+              });
+              bot.createMessage(config.modLogChannel, "Gave `Linux Tester` to **" + userTag + "**");
+            });
+          }else{
+            roles.splice(index, 1);
+            bot.editGuildMember(msg.guild.id, userID, {
+              roles: roles
+            }).then(() => {
+              bot.createMessage(channelID, "<@" + userID + ">, you have been removed from the `Linux Tester` role. Use the same command again to add this role to yourself.").then(delay(config.delayInMS)).then((innerMsg) => {
+                bot.deleteMessage(innerMsg.channel.id, innerMsg.id);
+                bot.deleteMessage(channelID, msg.id);
+              }).catch((err) => {
+                console.log("#4 " + err);
+              });
+              bot.createMessage(config.modLogChannel, "Removed `Linux Tester` from **" + userTag + "**");
+            });
+          }
+        break;
       }
 
     if(channelID === config.androidChannel || channelID === config.canaryChannel || channelID === config.iosChannel || channelID === config.linuxChannel){
