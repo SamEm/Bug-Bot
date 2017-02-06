@@ -111,10 +111,10 @@ bot.on('messageCreate', (msg) => {
           }
         break;
         case "!linux":
-          var ios = config.linuxTesterRole;
-          var index = roles.indexOf(ios);
+          var linux = config.linuxTesterRole;
+          var index = roles.indexOf(linux);
           if(index === -1){
-            roles.push(ios);
+            roles.push(linux);
             bot.editGuildMember(msg.guild.id, userID, {
               roles: roles
             }).then(() => {
