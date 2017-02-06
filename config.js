@@ -16,6 +16,7 @@ var config = {
   adminRole: '197042322939052032',                //admin role
   androidAlphaRole: '234838349800538112',         //android alpha role
   iosTestflightRole: '234838392464998402',        //ios testflight role
+  linuxTesterRole: '278229255169638410',
   trelloModRole: '197400761104203776',            //trello mod role
 
   iosCard: '57fd4af58042f56c271d46b3',            //ios user report card
