@@ -163,6 +163,12 @@ bot.on('messageCreate', (msg) => {
         }
       }
 
+      if(command.toLowerCase() === "!canrepo") {
+        bot.createMessage(channelID, "<@" + userID + ">, This is not a command, perhaps you were trying for '!canrepro'?").then(delay(config.delayInMS)).then((innerMsg) => {
+          bot.deleteMessage(innerMsg.channel.id, innerMsg.id);
+          bot.deleteMessage(channelID, msg.id);
+      }
+
       if(command.toLowerCase() === "!cannotrepro" || command.toLowerCase() === "!cantrepro"){
         var joinedMessage = messageSplit.join(' ');
         var trelloURL = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)?\s*\|\s*([\s\S]*)/gi, "$2");
