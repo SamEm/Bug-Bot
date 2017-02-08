@@ -491,6 +491,49 @@ bot.on('messageCreate', (msg) => {
             });
           }
         } // Edit an existing report's header
+      if(command.toLowerCase() === "!severity"){
+        var dev = msg.member.roles.indexOf(config.devRole);
+
+          if(dev > -1){
+            var joinedMessage = messageSplit.join(' ');
+            var trelloURL = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)?\s*\|\s*([\s\S]*)/gi, "$2");
+            var newLabel = joinedMessage.replace(/(?:(<)?(?:https?:\/\/)?(?:www\.)?trello.com\/c\/)?([^\/|\s|\>]+)(\/|\>)?(?:[\w-\d]*)?(\/|\>|\/>)? \| ([\s\S]*)/gi, "$5");
+
+            t.get("/1/cards/" + trelloURL, { }, function(errorURL, urlData) {
+              if(!!urlData && !!urlData.id && urlData.closed === false){
+                if(!!trelloURL && (newLabel !== trelloURL)){
+                  bot.getMessages(channelID).then((data) => {
+                    var dataFinder = data.find(function(foundObj) {
+                      return foundObj.author.id === config.botID && foundObj.content.indexOf('https://trello.com/c/' + trelloURL) > -1 && foundObj.content.indexOf('Reproducibility:') > -1;
+                    });
+                    if(!!dataFinder){
+                      if (newLabel.toLowerCase().indexOf('p') === 0) // bool check for isPriority
+                        updateTrelloLabel(trelloURL, channelID, newLabel, '<@' + userID + '>', userTag, msg.id, true);
+                      else
+                        updateTrelloLabel(trelloURL, channelID, newLabel, '<@' + userID + '>', userTag, msg.id, false);
+                    }else{
+                      updateTrelloLabel(trelloURL, channelID, null, '<@' + userID + '>', userTag, msg.id, false);
+                    }
+                  });
+                }else{
+                  bot.createMessage(channelID, "<@" + userID + ">, please include **one** pipe `|`").then(delay(config.delayInMS)).then((innerMsg) => {
+                    bot.deleteMessage(innerMsg.channel.id, innerMsg.id);
+                  });
+                }
+              }else{
+                bot.createMessage(channelID, "<@" + userID + ">, please provide a valid URL, a severity (P3 - P0, MI), and make sure the issue is not closed.").then(delay(config.delayInMS)).then((innerMsg) => {
+                  bot.deleteMessage(innerMsg.channel.id, innerMsg.id);
+                  bot.deleteMessage(channelID, msg.id);
+                });
+              }
+            });
+          }else{
+            bot.createMessage(channelID, "<@" + userID + ">, only Discord Employees can use this command.").then(delay(config.delayInMS)).then((msg_id) => {
+              bot.deleteMessage(msg_id.channel.id, msg_id.id);
+              bot.deleteMessage(channelID, msg.id);
+            });
+          }
+        } // Set the severity of a report
       if(command.toLowerCase() === "!submit"){ // Submit a report
         var dev = msg.member.roles.indexOf(config.devRole);
         var hunter = msg.member.roles.indexOf(config.hunterRole);
@@ -1180,5 +1223,75 @@ function updateTrelloCardTitle(cardID, channelID, newTitle, userID, userTag, msg
     value: newTitle
   }
   t.put('/1/cards/' + cardID + '/name', updateCard, cardUpdated);
+}
+
+function updateTrelloLabel(cardID, channelID, newLabel, userID, userTag, msgID, isPriority) {
+  var labelUpdated = function(error, data){
+      bot.createMessage(channelID, userID + ", your chosen severity has been added to <" + data.shortUrl + ">.").then(delay(config.delayInMS)).then((msg_id) => {
+        bot.deleteMessage(msg_id.channel.id, msg_id.id);
+        bot.deleteMessage(channelID, msgID);
+      });
+      bot.createMessage(config.modLogChannel, "**" + userTag + "** edited the severity of report `"  + data.name + "` <" + data.shortUrl + ">");
+  }
+  if(!!newLabel) { // handling the null case
+    // a very dirty way to do it, unfortunately. needs improvement!
+    var newLabelID = ''; // We will need these two later
+    var createNewLabelID = '';
+    if(!!isPriority) { // Priorities usage will remove the previous one and apply the new one
+      switch(channelID) {
+        case config.androidChannel:
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.droidP3Label); // We first remove all the priority labels
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.droidP2Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.droidP1Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.droidP0Label);
+          createNewLabelID = 'config.droid' + newLabel + 'Label'; // Create a new priority label with given label
+          break;
+        case config.canaryChannel:
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.canP3Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.canP2Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.canP1Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.canP0Label);
+          createNewLabelID = 'config.can' + newLabel + 'Label';
+          break;
+        case config.iosChannel:
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.iosP3Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.iosP2Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.iosP1Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.iosP0Label);
+          createNewLabelID = 'config.ios' + newLabel + 'Label';
+          break;
+        case config.linuxChannel:
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.linuxP3Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.linuxP2Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.linuxP1Label);
+          t.delete('/1/cards/' + cardID + '/idLabels/' + config.linuxP0Label);
+          createNewLabelID = 'config.linux' + newLabel + 'Label';     
+          break;
+      }
+    }
+    else { // Need More Info is a one-way street, you can't remove it through the bot (Dabbit was OK with this)
+      switch(channelID) {
+        case config.androidChannel:
+          createNewLabelID = 'config.droid' + newLabel + 'Label';
+          break;
+        case config.canaryChannel:
+          createNewLabelID = 'config.can' + newLabel + 'Label';
+          break;
+        case config.iosChannel:
+          createNewLabelID = 'config.ios' + newLabel + 'Label';
+          break;
+        case config.linuxChannel:
+          createNewLabelID = 'config.linux' + newLabel + 'Label';
+          break;
+      }
+    }
+    newLabelID = eval(createNewLabelID); // eval the new name to grab the ID associated to it
+    
+    var updateLabel = {
+          value: newLabelID
+    }
+    
+    t.post('/1/cards/' + cardID + '/idLabels', updateLabel, labelUpdated);
+  }
 }
 bot.connect();
