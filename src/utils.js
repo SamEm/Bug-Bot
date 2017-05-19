@@ -47,5 +47,6 @@ function toProperCase(editString){
 module.exports = {
   delay: delay,
   botReply: botReply,
-  toTitleCase: toTitleCase
+  toTitleCase: toTitleCase,
+  toProperCase: toProperCase
 };
