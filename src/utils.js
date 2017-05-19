@@ -40,8 +40,13 @@ function toTitleCase(editString) {
     return editString.replace(/\w\S*/g, function(text) { return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();});
 }
 
+function toProperCase(editString){
+    return editString.replace(/\w\S*/g, function(text) { return text.charAt(0).toUpperCase() + text.slice(1);});
+}
+
 module.exports = {
   delay: delay,
   botReply: botReply,
-  toTitleCase: toTitleCase
+  toTitleCase: toTitleCase,
+  toProperCase: toProperCase
 };
