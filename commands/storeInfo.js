@@ -77,13 +77,13 @@ let storeSysInfo = {
       if(!!dbRowReply){
         //Edit existing database entry
         db.run("UPDATE users SET " + whichOS + " = ? WHERE userid = ?", [systemInfo, userID]);
-        utils.botReply(bot, userID, channelID, "your new " + utils.toTitleCase(whichOS) + " settings have been saved", command, msg.id);
-        bot.createMessage(config.channels.modLogChannel, ":floppy_disk: **" + userTag + "** changed **" + utils.toTitleCase(whichOS) + "** -> `" + systemInfo + "`"); //user changed their --- info
+        utils.botReply(bot, userID, channelID, "your new " + utils.toProperCase(whichOS) + " settings have been saved", command, msg.id);
+        bot.createMessage(config.channels.modLogChannel, ":floppy_disk: **" + userTag + "** changed **" + utils.toProperCase(whichOS) + "** -> `" + systemInfo + "`"); //user changed their --- info
       }else if(!dbRowReply){
         //Create new database entry
         db.run("INSERT INTO users (userid, " + whichOS + ") VALUES(?, ?)", [userID, systemInfo]);
-        utils.botReply(bot, userID, channelID, "your new " + utils.toTitleCase(whichOS) + " settings have been saved", command, msg.id);
-        bot.createMessage(config.channels.modLogChannel, ":floppy_disk: **" + userTag + "** added **" + utils.toTitleCase(whichOS) + "** -> `" + systemInfo + "`"); //user added their --- info
+        utils.botReply(bot, userID, channelID, "your new " + utils.toProperCase(whichOS) + " settings have been saved", command, msg.id);
+        bot.createMessage(config.channels.modLogChannel, ":floppy_disk: **" + userTag + "** added **" + utils.toProperCase(whichOS) + "** -> `" + systemInfo + "`"); //user added their --- info
       }
     });
   },
