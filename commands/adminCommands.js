@@ -20,7 +20,7 @@ let adminCommands = {
           return;
         }
         let key = contentMessage[1];
-        let whichClient = contentMessage[2].match(/(?:\s)(-l|-m|-w|-a|-i)/i);
+        let whichClient = contentMessage[2].match(/(?:\B)(-l|-m|-w|-a|-i)(?:\b)/i);
         let ADContent;
         //Check if ADcontent exists or not, reply "missing reason/user settings" if it's missing
         if(!contentMessage[2]) {
