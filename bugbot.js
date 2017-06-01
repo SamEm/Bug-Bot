@@ -91,7 +91,7 @@ bot.on('messageCreate', (msg) => {
   let channelID = msg.channel.id;
   let userTag = msg.author.username + "#" + msg.author.discriminator;
   if(!!userTag) {
-    userTag = userTag.replace(/(\*|\`|\~|\_)/gi, "\\$&");
+    userTag = escapeMD(userTag);
   }
   let userID = msg.author.id;
 

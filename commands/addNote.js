@@ -41,7 +41,7 @@ let addNote = {
     let key = matchContent[1];
     let note = matchContent[2];
 
-    note = note.replace(/(\*|\`|\~|\_|ˋ)/gi, "\\$&");
+    note = escapeMD(note);
 
     db.get("SELECT reportStatus, reportMsgID, trelloURL FROM reports WHERE id = " + key, function(error, reportInfo) {
       if(!!error) {

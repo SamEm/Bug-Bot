@@ -2,7 +2,7 @@
 const customConfig = require('../configEdit');
 
 function delay (delayS) {
-  return function(arg){
+  return function(arg) {
     return new Promise((resolve) => {
       delayS *= 1000;
       setTimeout(() => resolve(arg), delayS);
@@ -36,12 +36,19 @@ function botReply (bot, userID, channelID, error, command, msgID, minute) {
   }
 }
 
-function toTitleCase(editString) {
-    return editString.replace(/\w\S*/g, function(text) { return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();});
+function toTitleCase (editString) {
+  return editString.replace(/\w\S*/g, function(text) { return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();});
+}
+
+function escapeMD (text, codeBlock = false, inlineCode = false) {
+  if(onlyCodeBlock) return text.replace(/```/g, '`\u200b``');
+  if(onlyInlineCode) return text.replace(/\\(`|\\)/g, '$1').replace(/(`|\\)/g, '\\$1');
+  return text.replace(/\\(\*|_|`|~|\\)/g, '$1').replace(/(\*|_|`|~|\\)/g, '\\$1');
 }
 
 module.exports = {
   delay: delay,
   botReply: botReply,
-  toTitleCase: toTitleCase
+  toTitleCase: toTitleCase,
+  escapeMD: escapeMD
 };

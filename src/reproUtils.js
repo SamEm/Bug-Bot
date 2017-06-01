@@ -111,7 +111,7 @@ function preCheckReproSetup(bot, reportKey, reproCnt, reproduction, userTag, cha
           return;
         }
 
-        reproCnt = reproCnt.replace(/(\*|\`|\~|\_|\ˋ)/gi, "\\$&");
+        reproCnt = escapeMD(reproCnt);
 
         let whichClient = reproCnt.match(/(?:\B)(-l|-m|-w|-a|-i)(?:\b)/i);
         let system;
