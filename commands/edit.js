@@ -48,7 +48,7 @@ let edit = {
 
       let cleanNewContent;
       if(!!newContent.match(/(\*|\`|\~|\_|ˋ)/i)){
-        cleanNewContent = newContent.replace(/(\*|\`|\~|\_|ˋ)/gi, "\\$&");
+        cleanNewContent = escapeMD(newContent);
       } else {
         cleanNewContent = newContent;
       }

@@ -74,7 +74,8 @@ let storeSysInfo = {
       if(!!error){
         console.log(error);
       }
-      systemInfo = systemInfo.replace(/(\*|\`|\~|\_|ˋ)/gi, "");
+      systemInfo = systemInfo.replace(/(\*|\`|ˋ)/gi, "");
+      systemInfo = systemInfo.replace(/\\(\_|~)/g, '$1').replace(/(\_|~)/g, '\\$1');
 
       switch(whichOS.toLowerCase()) {
         case "windows":
