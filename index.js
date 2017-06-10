@@ -628,7 +628,7 @@ bot.on('messageCreate', (msg) => {
                 var cleanRepostReport = repostReportString.replace(/((http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)\.(?:jpg|gif|png))/gim, "");
 
                 if(!!msg.attachments[0]){
-                  bot.createMessage(channelID, "<@" + userID + "> please use the attach command to attach images instead of embeding images to the submit report").then(delay(config.delayInMS)).then((innerMsg) => {
+                  bot.createMessage(channelID, "<@" + userID + "> please use the attach command to attach images instead of embedding images to the submit report").then(delay(config.delayInMS)).then((innerMsg) => {
                     bot.deleteMessage(channelID, innerMsg.id).catch(() => {});
                   }).catch(console.error);
                 }
