@@ -26,11 +26,11 @@ let fun = {
         }
 
         if (msg.mentions.length > 1) {
-          utils.botReply(bot, userID, channelID, "wow! Calm down there, no need to take on more than you can chew! (one fight at the time)", command, msg.id, false);
+          utils.botReply(bot, userID, channelID, "wow! Calm down there, no need to take on more than you can chew! (one fight at a time)", command, msg.id, false);
           return;
         }
 
-        let strings = [", but they tripped over a rock and fell in the ocean", ", but they hurt themselves in confusion", ". SHORYUKEN!", ". HADOUKEN!", ". KA-POW!", " with a pillow", " with a large fish", ", but they stumbled over their shoe laces", ", but they miss", " with a burnt piece of toast", ", but it wasn't every effective..."];
+        let strings = [", but they tripped over a rock and fell in the ocean", ", but they hurt themselves in confusion", ". SHORYUKEN!", ". HADOUKEN!", ". KA-POW!", " with a pillow", " with a large fish", ", but they stumbled over their shoelaces", ", but they missed", " with a burnt piece of toast", ", but it wasn't very effective..."];
         let randomNumber = Math.floor((Math.random() * strings.length));
         bot.createMessage(channelID, msg.author.username + " is fighting <@" + msg.mentions[0].id + ">" + strings[randomNumber]);
         break;
