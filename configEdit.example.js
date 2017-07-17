@@ -12,7 +12,9 @@ var customConfig = {
   approveAttempts: 3,   // number of approvals before the bug is approved
   denyAttempts: 3,      // number of denials before the bug is denied
 
-  reproAttempts: 5      // number of repro attempts before they no longer attach to the report in chat
+  reproAttempts: 5,      // number of repro attempts before they no longer attach to the report in chat,
+  
+  secretPhrase: ''
 }
 
 module.exports = customConfig;
