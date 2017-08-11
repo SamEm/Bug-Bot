@@ -33,7 +33,12 @@ let approveDeny = {
       utils.botReply(bot, userID, channelID, "please format your input correctly. `" + command + " <report ID> | system info`. See <#342060723721207810> for full syntax.", command, msg.id, false);
       return;
     }
-
+  
+    if (contentMessage.includes("`")){ // single ticks result in messed up message
+      utils.botReply(bot, userID, channelID, "please do not use a single-tick in your bug report.", command, msg.id, false);
+      return;
+    }
+    
     let key = contentMessage[1];
 
     db.get("SELECT header, reportStatus, canRepro, cantRepro, reportMsgID, header, reportString, userID FROM reports WHERE id = ?", [key], function(error, reportInfo) {
