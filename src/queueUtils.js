@@ -57,7 +57,7 @@ function queueReport (bot, userTag, userID, channelID, db, msg, reportCapLinks, 
         let queueMsgID = qMsg.id;
 
         db.run("INSERT INTO reports(id, header, reportString, userID, userTag, cardID, reportStatus, canRepro, cantRepro, reportMsgID, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime())", [reportID, header, reportCapLinks, userID, userTag, cardID, 'queue', 0, 0, queueMsgID], function(err) {if(!!err){console.log(err);}}); //message ID of report in Queue, later changed to ID in main chat. And time the report was reported (for statistical purposes)
-        utils.botReply(bot, userID, channelID, "your bug has been added to the approval queue! You will be notified when the status of your report updatesupdates, just sit tight for now while the Bug Hunter:tm:s do their magic!", null, msg.id, false);
+        utils.botReply(bot, userID, channelID, "your bug has been added to the approval queue! You will be notified when the status of your report updates, just sit tight for now while the Bug Hunter:tm:s do their magic!", null, msg.id, false);
         bot.createMessage(config.channels.modLogChannel, ":pencil: **" + utils.cleanUserTag(userTag) + "** submitted `" + header + "` in <#" + channelID + ">"); //log to bot-log
       }).catch((err) => {console.log("queueUtils | createQueue Msg\n" + err);});
     });
