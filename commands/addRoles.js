@@ -54,7 +54,7 @@ let addRoles = {
       bot.editGuildMember(msg.channel.guild.id, userID, {
         roles: allRoles
       }).then(() => {
-        utils.botReply(bot, userID, channelID, `You removed ${roleName} from yourself. Use the same command again to add the role from yourself.`, command, msg.id);
+        utils.botReply(bot, userID, channelID, `You removed ${roleName} from yourself. Use the same command again to add the role to yourself.`, command, msg.id);
         bot.createMessage(config.channels.modLogChannel, `${roleName} removed from ${userTag}`);
       }).catch((err) => {
         console.log('--> removeRole | uID: ' + userID + " rID: " + roleID + "\n" + err);
