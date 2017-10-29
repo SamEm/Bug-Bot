@@ -26,7 +26,7 @@ let attach = {
       attachment = regexMsg[2];
 
       let checkForYT = attachment.match(/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i);
-      let checkForImage = attachment.match(/\bhttps?:\/\/\S+(?:png|jpg|jpeg|webp|gifv?)\b/i);
+      let checkForImage = attachment.match(/\bhttps?:\/\/\S+(?:png|jp(|e)g|webp|gifv?)\b/i);
       if(!checkForImage && !checkForYT) {
         utils.botReply(bot, userID, channelID, "please include a valid attachment.", command, msg.id, false);
         return;
